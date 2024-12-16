@@ -272,16 +272,21 @@ gradlePlugin {
 
 publishing {
     repositories {
-        maven {
-            name = "WagYourMaven"
-            url = if (project.hasProperty("version_snapshot")) {
-                URI.create("https://maven.wagyourtail.xyz/snapshots/")
-            } else {
-                URI.create("https://maven.wagyourtail.xyz/releases/")
+        val deployUrl = System.getenv("DEPLOY_TO_GITHUB_PACKAGES_URL")
+        
+        if (deployUrl != null) {
+            maven {
+                name = "GithubPagesMaven"
+                url = uri(deployUrl)
+                credentials {
+                    username = System.getenv("GITHUB_ACTOR") ?: ""
+                    password = System.getenv("GITHUB_TOKEN") ?: ""
+                }
             }
-            credentials {
-                username = project.findProperty("mvn.user") as String? ?: System.getenv("USERNAME")
-                password = project.findProperty("mvn.key") as String? ?: System.getenv("TOKEN")
+        } else {
+            maven {
+                name = "BuildDirMaven"
+                url = uri(layout.buildDirectory.dir("maven").get().asFile)
             }
         }
     }
