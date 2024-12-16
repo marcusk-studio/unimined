@@ -24,10 +24,10 @@ import kotlin.io.path.readBytes
 import kotlin.io.path.writeBytes
 
 class AuthProvider(val project: Project) : AuthConfig {
-    override var enabled: Boolean by FinalizeOnRead((project.findProperty("unimined.auth.enabled") as String?)?.toBoolean() ?: false)
-    override var storeCredentials: Boolean by FinalizeOnRead((project.findProperty("unimined.auth.storeCredentials") as String?)?.toBoolean() ?: true)
-    override var encryptStoredCredentials: Boolean by FinalizeOnRead((project.findProperty("unimined.auth.encryptStoredCredentials") as String?)?.toBoolean() ?: true)
-    override var username: String? by FinalizeOnRead(project.findProperty("unimined.auth.username") as String?)
+    override var enabled: Boolean by FinalizeOnRead(false)
+    override var storeCredentials: Boolean by FinalizeOnRead(false)
+    override var encryptStoredCredentials: Boolean by FinalizeOnRead(false)
+    override var username: String? by FinalizeOnRead("username")
 
     companion object {
         private var daemonCache2: JsonObject? = null

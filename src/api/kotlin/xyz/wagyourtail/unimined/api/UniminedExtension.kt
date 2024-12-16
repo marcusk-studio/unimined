@@ -45,7 +45,7 @@ val Project.uniminedMaybe
 abstract class UniminedExtension(val project: Project) {
 
     var useGlobalCache: Boolean by FinalizeOnRead(true)
-    var forceReload: Boolean by FinalizeOnRead(project.properties["unimined.forceReload"] == "true")
+    var forceReload: Boolean by FinalizeOnRead(false)
 
     /**
      * VERY not recommended to disable
